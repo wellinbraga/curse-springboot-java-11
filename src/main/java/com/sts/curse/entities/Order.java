@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -32,6 +34,9 @@ public class Order implements Serializable {
 	private Instant moment;
 	
 	private Integer orderStatus;
+	
+	@OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+	private Payments payment;
 	
 	@ManyToOne
 	@JoinColumn(name = "client_id")
@@ -82,6 +87,14 @@ public class Order implements Serializable {
 		this.client = client;
 	}
 
+	public Payments getPayment() {
+		return payment;
+	}
+	
+	public void setPayment(Payments payment) {
+		this.payment = payment;
+	}
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
