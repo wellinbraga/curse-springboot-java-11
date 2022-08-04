@@ -18,6 +18,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sts.curse.enums.OrderStatus;
 
 
@@ -93,6 +94,14 @@ public class Order implements Serializable {
 	
 	public void setPayment(Payments payment) {
 		this.payment = payment;
+	}
+	
+	public Double getTotal() {
+		double sum = 0.0;
+		for (OrderItem item : items) {
+			sum += item.getSubtotal();
+		}
+		return sum;
 	}
 	
 	@Override
